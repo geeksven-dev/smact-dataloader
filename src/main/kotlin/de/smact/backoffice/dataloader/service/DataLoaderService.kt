@@ -141,6 +141,7 @@ class DataLoaderService(private val companyService: CompanyService,
     private fun correctNaceNumber(naceNumber: String): String {
         return when {
             naceNumber.isEmpty() -> ""
+            naceNumber.contains(" ") -> naceNumber.split(" ")[0].padStart(5, '0')
             naceNumber.length < 5 -> {
                 logger.debug { "corrected nace $naceNumber to ${naceNumber.padStart(5, '0')}" }
                 naceNumber.padStart(5, '0')
