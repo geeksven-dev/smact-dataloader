@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+	java
 	id("org.springframework.boot") version "2.1.9.RELEASE"
 	id("io.spring.dependency-management") version "1.0.8.RELEASE"
 	kotlin("jvm") version "1.2.71"
@@ -8,7 +9,7 @@ plugins {
 }
 
 group = "de.smact.backoffice"
-version = "0.0.1-SNAPSHOT"
+version = 1.0
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -32,5 +33,11 @@ tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
+	}
+}
+
+(tasks.getByName("processResources") as ProcessResources).apply {
+	filesMatching("application.properties") {
+		expand(project.properties)
 	}
 }

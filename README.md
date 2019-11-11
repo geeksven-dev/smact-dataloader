@@ -100,3 +100,23 @@ http://localhost:7700/api/v1/loader/run?specificFile=Unternehmen%20-%20PLZ%208-9
 http://localhost:7700/api/v1/loader/run?truncateCompanies=true&specificFile=Unternehmen%20-%20PLZ%208-9%20-%20ab%2010%20MA.xls
 ```
 
+### Building Software
+
+#### Version increase
+Never forget to increase the version number in **build.gradle.kts** file
+
+#### Gradle build
+```
+./gradlew clean build
+```
+
+#### Docker build/tag
+```
+docker build --tag dataloader:<version> .
+```
+
+#### Docker save image (to upload to portainer or registry)
+```
+docker save dataloader:<version> > dataloader.tar
+```
+

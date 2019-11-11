@@ -1,83 +1,78 @@
-create table if not exists admin_support
+create table admin_support
 (
-    id int auto_increment
-        primary key,
-    workspace varchar(45) null,
-    workspacename varchar(45) null,
-    user varchar(45) null,
-    username varchar(45) null,
-    usermail varchar(64) null,
-    context varchar(64) null,
-    contextdetail varchar(64) null,
-    supporturl varchar(255) null,
+    id int auto_increment primary key,
+    workspace text null,
+    workspacename text null,
+    user text null,
+    username text null,
+    usermail text null,
+    context text null,
+    contextdetail text null,
+    supporturl text null,
     subject text null,
-    supportText longtext null,
-    supportType varchar(45) null,
+    supportText text null,
+    supportType text null,
     status int null,
-    staff varchar(45) null,
+    staff text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
 );
 
-create table if not exists angebote
+create table angebote
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     offerID int null,
     customerID int null,
-    context varchar(45) null,
+    context text null,
     date timestamp null,
     duedate timestamp null,
     product int null,
     productCondition int null,
-    productDescription varchar(45) null,
+    productDescription text null,
     productPrice float null,
-    edited_by varchar(255) null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
-)
-    collate=utf8_unicode_ci;
+);
 
-create table if not exists appraisal
+create table appraisal
 (
     id int auto_increment
         primary key,
     saleid int null,
     userid int null,
     companyid int null,
-    need longtext null,
-    solution longtext null,
-    research longtext null,
-    options longtext null,
-    network varchar(255) null,
-    edited_by varchar(255) null,
+    need text null,
+    solution text null,
+    research text null,
+    options text null,
+    network text null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists audits
+create table audits
 (
-    id int unsigned auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
     user_id int unsigned null,
-    user_type varchar(191) null,
-    event varchar(191) not null,
+    user_type varchar(255) null,
+    event text not null,
     auditable_id int unsigned not null,
-    auditable_type varchar(191) not null,
+    auditable_type varchar(255) not null,
     old_values text null,
     new_values text null,
     url text null,
-    ip_address varchar(45) null,
-    user_agent varchar(191) null,
-    tags varchar(191) null,
+    ip_address text null,
+    user_agent text null,
+    tags text null,
     created_at timestamp null,
     updated_at timestamp null,
     deleted_at timestamp null
-)
-    collate=utf8mb4_unicode_ci;
+);
 
 create index audits_auditable_id_auditable_type_index
     on audits (auditable_id, auditable_type);
@@ -85,59 +80,47 @@ create index audits_auditable_id_auditable_type_index
 create index audits_user_id_user_type_index
     on audits (user_id, user_type);
 
-create table if not exists auth
+create table auth
 (
-    id int auto_increment
-        primary key
+    id int auto_increment primary key
 );
 
-create table if not exists berufe
+create table berufe
 (
-    id int auto_increment
-        primary key,
-    interneID int(28) null,
-    name varchar(255) null,
-    quelle varchar(255) charset utf8 null,
+    id int auto_increment primary key,
+    interneID int null,
+    name text null,
+    quelle text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
-)
-    collate=utf8_unicode_ci;
+);
 
-create table if not exists berufspositionen
+create table berufspositionen
 (
-    id int auto_increment
-        primary key,
-    name varchar(255) null,
+    id int auto_increment primary key,
+    name text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
-)
-    collate=utf8_unicode_ci;
+);
 
-create table if not exists branchen
+create table branchen
 (
-    id int auto_increment,
-    branchenID varchar(45) null,
-    kategorie varchar(45) null,
-    name varchar(512) charset utf8 null,
+    id int auto_increment primary key,
+    branchenID text null,
+    kategorie text null,
+    name text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
-    deleted_at timestamp null,
-    constraint id_UNIQUE
-        unique (id)
-)
-    collate=utf8_unicode_ci;
+    deleted_at timestamp null
+);
 
-alter table branchen
-    add primary key (id);
-
-create table if not exists comments
+create table comments
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    context varchar(255) null,
-    contextID varchar(255) null,
+    context text null,
+    contextID text null,
     comment text null,
     edited_by int not null,
     created_at timestamp default CURRENT_TIMESTAMP null,
@@ -148,213 +131,200 @@ create table if not exists comments
 create index edited_by_idx
     on comments (edited_by);
 
-create table if not exists companies
+create table companies
 (
-    id int auto_increment,
+    id int auto_increment primary key,
     smactwsID int null,
-    externID varchar(255) null,
+    externID text null,
     subid int null,
-    name varchar(255) null,
-    firmierung varchar(255) null,
-    namezusatz varchar(255) null,
-    ortsteil varchar(255) null,
-    strasse varchar(255) null,
-    hausnummer varchar(45) null,
-    hausbs varchar(45) null,
+    name text null,
+    firmierung text null,
+    namezusatz text null,
+    ortsteil text null,
+    strasse text null,
+    hausnummer text null,
+    hausbs text null,
     plz text null,
-    ort varchar(255) null,
-    land varchar(255) null,
-    state varchar(255) null,
-    website varchar(255) null,
-    website2 varchar(255) null,
-    mail varchar(255) null,
-    mailoptin varchar(45) null,
-    tel_land varchar(45) null,
-    tel_ort varchar(45) null,
-    tel_nummer varchar(255) charset utf8 null,
-    fax_land varchar(255) null,
-    fax_ort varchar(255) null,
-    fax_nummer varchar(255) null,
+    ort text null,
+    land text null,
+    state text null,
+    website text null,
+    website2 text null,
+    mail text null,
+    mailoptin text null,
+    tel_land text null,
+    tel_ort text null,
+    tel_nummer text null,
+    fax_land text null,
+    fax_ort text null,
+    fax_nummer text null,
     kernkompetenz text null,
     hauptbranche int null,
-    nebenbranche varchar(255) null,
-    profil varchar(45) null,
-    mitarbeiter varchar(255) null,
-    mitarbeiterklasse varchar(45) null,
-    umsatz varchar(255) null,
-    umsatzklasse varchar(45) null,
-    umsatzjahr varchar(255) null,
-    gruendung varchar(45) null,
-    hrnr varchar(255) null,
-    stnr varchar(255) null,
-    ustid varchar(255) null,
-    kdnr varchar(255) null,
-    zahlungsziel varchar(255) null,
+    nebenbranche text null,
+    profil text null,
+    mitarbeiter text null,
+    mitarbeiterklasse text null,
+    umsatz text null,
+    umsatzklasse text null,
+    umsatzjahr text null,
+    gruendung text null,
+    hrnr text null,
+    stnr text null,
+    ustid text null,
+    kdnr text null,
+    zahlungsziel text null,
     status int null,
     contactmode int null,
-    Kommentar longtext null,
+    Kommentar text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
-    edited_by varchar(45) charset utf8 null,
-    deleted_at timestamp null,
-    constraint id_UNIQUE
-        unique (id)
-)
-    collate=utf8_unicode_ci;
-
-alter table companies
-    add primary key (id);
-
-create table if not exists company_global
-(
-    id int auto_increment
-        primary key,
-    companyname mediumtext null,
-    zipcode mediumtext null,
-    streetbackup mediumtext null,
-    street mediumtext null,
-    streetnumber mediumtext null,
-    city mediumtext null,
-    country mediumtext null,
-    mainsector mediumtext null,
-    corporatename mediumtext null,
-    established mediumtext null,
-    staffquantity mediumtext null,
-    telareacode mediumtext null,
-    telnumber mediumtext null,
-    backupnumber mediumtext null,
-    website mediumtext null,
-    annualsalesyear mediumtext null,
-    lastannualsales mediumtext null,
-    subsidiaries mediumtext null,
-    email mediumtext null,
-    created_at timestamp default CURRENT_TIMESTAMP null,
-    updated_at timestamp null,
-    deleted_at timestamp null,
-    contact mediumtext null
+    edited_by text null,
+    deleted_at timestamp null
 );
 
-create table if not exists company_local
+create table company_global
 (
-    id int auto_increment
-        primary key,
-    companyID varchar(255) not null,
-    smactwsID varchar(45) null,
-    subscriptionID varchar(45) null,
-    companyname varchar(255) null,
-    companynameadd varchar(255) null,
-    corporatename varchar(255) null,
-    zipcode varchar(255) null,
-    city varchar(255) null,
-    district varchar(255) null,
-    state varchar(255) null,
-    country varchar(255) null,
-    street varchar(255) null,
-    streetnumber varchar(255) null,
-    addressaddition varchar(255) null,
-    telcountrycode varchar(255) null,
-    telareacode varchar(255) null,
-    telnumber varchar(255) null,
-    faxcountrycode varchar(255) null,
-    faxareacode varchar(255) null,
-    faxnumber varchar(255) null,
-    website varchar(255) null,
-    email varchar(255) null,
-    mainsector varchar(255) null,
-    corecompetency varchar(255) null,
-    status varchar(255) null,
-    mailoptin varchar(255) null,
-    profile varchar(255) null,
-    established varchar(255) null,
-    staffquantity varchar(255) null,
-    staffcategory varchar(255) null,
-    lastannualsales varchar(255) null,
-    annualsalesyear varchar(255) null,
-    revenueclass varchar(255) null,
-    customerid varchar(255) null,
-    commercialregisternumber varchar(255) null,
-    taxid varchar(255) null,
-    vatin varchar(255) null,
-    dateofpayment varchar(255) null,
-    indays varchar(255) null,
-    contactinformation varchar(255) null,
+    id int auto_increment primary key,
+    companyname text null,
+    zipcode text null,
+    streetbackup text null,
+    street text null,
+    streetnumber text null,
+    city text null,
+    country text null,
+    mainsector text null,
+    corporatename text null,
+    established text null,
+    staffquantity text null,
+    telareacode text null,
+    telnumber text null,
+    backupnumber text null,
+    website text null,
+    annualsalesyear text null,
+    lastannualsales text null,
+    subsidiaries text null,
+    email text null,
+    created_at timestamp default CURRENT_TIMESTAMP null,
+    updated_at timestamp null,
+    deleted_at timestamp null,
+    contact text null
+);
+
+create table company_local
+(
+    id int auto_increment primary key,
+    companyID text not null,
+    smactwsID text null,
+    subscriptionID text null,
+    companyname text null,
+    companynameadd text null,
+    corporatename text null,
+    zipcode text null,
+    city text null,
+    district text null,
+    state text null,
+    country text null,
+    street text null,
+    streetnumber text null,
+    addressaddition text null,
+    telcountrycode text null,
+    telareacode text null,
+    telnumber text null,
+    faxcountrycode text null,
+    faxareacode text null,
+    faxnumber text null,
+    website text null,
+    email text null,
+    mainsector text null,
+    corecompetency text null,
+    status text null,
+    mailoptin text null,
+    profile text null,
+    established text null,
+    staffquantity text null,
+    staffcategory text null,
+    lastannualsales text null,
+    annualsalesyear text null,
+    revenueclass text null,
+    customerid text null,
+    commercialregisternumber text null,
+    taxid text null,
+    vatin text null,
+    dateofpayment text null,
+    indays text null,
+    contactinformation text null,
     edited_by int null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists companypersons
+create table companypersons
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    user varchar(255) charset utf8 null,
-    company varchar(255) charset utf8 null,
-    job varchar(255) null,
-    function varchar(255) null,
-    email varchar(45) charset utf8 null,
-    telcountrycode varchar(45) charset utf8 null,
-    telareacode varchar(45) charset utf8 null,
-    telnumber varchar(45) charset utf8 null,
-    edited_by varchar(255) charset utf8 null,
+    user text null,
+    company text null,
+    job text null,
+    `function` text null,
+    email text null,
+    telcountrycode text null,
+    telareacode text null,
+    telnumber text null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
-)
-    collate=utf8_unicode_ci;
+    );
 
-create table if not exists countries
+create table countries
 (
-    id int auto_increment
-        primary key,
-    namedt varchar(255) null,
-    `iso-2` varchar(45) null,
-    `iso-3` varchar(45) null,
-    `iso-num` varchar(45) null,
-    phonecode varchar(45) null,
-    created_by varchar(255) null,
+    id int auto_increment primary key,
+    namedt text null,
+    `iso-2` text null,
+    `iso-3` text null,
+    `iso-num` text null,
+    phonecode text null,
+    created_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
-    )
-    collate=utf8_unicode_ci;
+    );
 
-create table if not exists customers
+create table customers
 (
-    ID int auto_increment
-        primary key,
-    Feld1 varchar(255) null,
-    Feld2 varchar(255) null,
+    ID int auto_increment primary key,
+    Feld1 text null,
+    Feld2 text null,
     Feld3 datetime null,
-    Feld4 varchar(255) null,
-    Feld5 varchar(255) null,
-    Feld6 varchar(255) null,
-    Feld7 varchar(255) null,
-    Feld8 varchar(255) null,
-    Feld9 varchar(255) null,
-    Feld10 varchar(255) null,
-    Feld11 varchar(255) null,
-    Feld12 varchar(255) null,
-    Feld13 varchar(255) null,
-    Feld14 varchar(255) null,
-    Feld15 varchar(255) null,
-    Feld16 varchar(255) null,
-    Feld17 varchar(255) null,
-    Feld18 varchar(255) null,
-    Feld19 varchar(255) null,
-    Feld20 varchar(255) null,
-    Feld21 varchar(255) null,
+    Feld4 text null,
+    Feld5 text null,
+    Feld6 text null,
+    Feld7 text null,
+    Feld8 text null,
+    Feld9 text null,
+    Feld10 text null,
+    Feld11 text null,
+    Feld12 text null,
+    Feld13 text null,
+    Feld14 text null,
+    Feld15 text null,
+    Feld16 text null,
+    Feld17 text null,
+    Feld18 text null,
+    Feld19 text null,
+    Feld20 text null,
+    Feld21 text null,
     Feld22 double null,
-    Feld23 varchar(255) null,
-    Feld24 varchar(255) null,
-    Feld25 varchar(255) null,
-    Feld26 varchar(255) null,
-    Feld27 varchar(255) null,
-    Feld28 varchar(255) null,
-    Feld29 varchar(255) null,
-    Feld30 varchar(255) null,
-    Feld31 varchar(255) null,
+    Feld23 text null,
+    Feld24 text null,
+    Feld25 text null,
+    Feld26 text null,
+    Feld27 text null,
+    Feld28 text null,
+    Feld29 text null,
+    Feld30 text null,
+    Feld31 text null,
     Feld32 double null,
     Feld33 text null,
     Feld34 text null,
@@ -478,75 +448,72 @@ create table if not exists customers
     Feld152 text null,
     Feld153 text null,
     Feld154 text null
-)
-    engine=MyISAM charset=utf8;
+);
 
-create table if not exists dates
+create table dates
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
     userID int null,
     private int null,
-    startdate varchar(45) null,
-    enddate varchar(45) null,
-    context varchar(45) null,
-    headline varchar(255) null,
-    description varchar(255) null,
-    url varchar(45) null,
-    class varchar(45) null,
+    startdate text null,
+    enddate text null,
+    context text null,
+    headline text null,
+    description text null,
+    url text null,
+    class text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
-    deleted_at timestamp null
+    deleted_at timestamp null,
+    pushnotificationID bigint null
 );
 
-create table if not exists event_campaign
+create table event_campaign
 (
     id int auto_increment
         primary key,
     smactwsID int null,
-    campaignID varchar(45) null,
-    eventID varchar(45) null,
-    code varchar(45) null,
+    campaignID text null,
+    eventID text null,
+    code text null,
     expire timestamp null,
-    reference varchar(45) null,
-    discountValue varchar(45) null,
-    discountType varchar(45) null,
+    reference text null,
+    discountValue text null,
+    discountType text null,
     invalid int null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists eventproducts
+create table eventproducts
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    eventID varchar(45) null,
-    productID varchar(45) null,
-    edited_by varchar(45) null,
+    eventID text null,
+    productID text null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
 );
 
-create table if not exists events
+create table events
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    eventID varchar(45) null,
-    eventname varchar(45) null,
-    eventdescription mediumtext null,
+    eventID text null,
+    eventname text null,
+    eventdescription text null,
     eventstart timestamp null,
     eventend timestamp null,
-    duration varchar(45) null,
-    context varchar(45) null,
-    status varchar(45) null,
-    statusdefinition mediumtext null,
-    location varchar(45) null,
+    duration text null,
+    context text null,
+    status text null,
+    statusdefinition text null,
+    location text null,
     `limit` int null,
-    productID varchar(45) null,
+    productID text null,
     reminder timestamp null,
     edited_by int null,
     created_at timestamp default CURRENT_TIMESTAMP null,
@@ -554,47 +521,46 @@ create table if not exists events
     deleted_at timestamp null
 );
 
-create table if not exists german_streets
+create table german_streets
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     `3166_1N` int null,
-    `3166_1A2` varchar(255) null,
-    Staat varchar(255) null,
+    `3166_1A2` text null,
+    Staat text null,
     ARS bigint null,
     AGS int null,
-    NUTS_3 varchar(255) null,
-    `3166_2` varchar(255) null,
-    Bundesland varchar(255) null,
-    Reg_Bez varchar(255) null,
-    Region varchar(255) null,
+    NUTS_3 text null,
+    `3166_2` text null,
+    Bundesland text null,
+    Reg_Bez text null,
+    Region text null,
     GtKz int null,
-    Gemeindetyp varchar(255) null,
-    KrS varchar(255) null,
-    KrtKz varchar(255) null,
-    Kreistyp varchar(255) null,
-    Kreis varchar(255) null,
-    Zustaend_Gem varchar(255) null,
+    Gemeindetyp text null,
+    KrS text null,
+    KrtKz text null,
+    Kreistyp text null,
+    Kreis text null,
+    Zustaend_Gem text null,
     AmtS int null,
     VBtKz int null,
-    Verbandstyp varchar(255) null,
-    Zustaend_VB varchar(255) null,
-    RgS varchar(255) null,
-    Reisegebiet varchar(255) null,
-    PLZ int(5) unsigned zerofill not null,
-    Ortsname varchar(255) null,
-    Ortszusatz varchar(255) null,
-    Ortsteil varchar(255) null,
+    Verbandstyp text null,
+    Zustaend_VB text null,
+    RgS text null,
+    Reisegebiet text null,
+    PLZ varchar(5) not null,
+    Ortsname text null,
+    Ortszusatz text null,
+    Ortsteil text null,
     Straße text null,
-    Nummer varchar(255) null,
-    Orientierung varchar(255) null,
-    `Bem.` varchar(255) null,
-    PLZ_2 varchar(255) null,
-    Ortsname_2 varchar(255) null,
-    Ortsteil_2 varchar(255) null,
-    Straße_2 varchar(255) null,
-    Nummer_2 varchar(255) null,
-    `Bem.2` varchar(255) null
+    Nummer text null,
+    Orientierung text null,
+    `Bem.` text null,
+    PLZ_2 text null,
+    Ortsname_2 text null,
+    Ortsteil_2 text null,
+    Straße_2 text null,
+    Nummer_2 text null,
+    `Bem.2` text null
 );
 
 create index AGS_index
@@ -615,10 +581,9 @@ create index PLZ_index
 create index VBtKz_index
     on german_streets (VBtKz);
 
-create table if not exists germany
+create table germany
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     townname text null,
     townadd text null,
     townzip text null,
@@ -626,130 +591,116 @@ create table if not exists germany
     townstate text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
-)
-    collate=utf8_unicode_ci;
+);
 
-create table if not exists hobbies
+create table hobbies
 (
-    id int auto_increment
-        primary key,
-    name varchar(255) null,
-    created_at timestamp default CURRENT_TIMESTAMP null,
-    updated_at timestamp null,
-    deleted_at timestamp null
-)
-    collate=utf8_unicode_ci;
-
-create table if not exists incidents
-(
-    id int auto_increment
-        primary key,
-    smactwsID int null,
-    userid int null,
-    incident varchar(255) null,
-    toContext int null,
-    fromContext int null,
-    edited_by varchar(45) default 'System Tracker' null,
+    id int auto_increment primary key,
+    name text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists invoices
+create table incidents
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    smactinstance varchar(45) null,
-    invoiceid varchar(45) null,
-    invoiceNo varchar(45) null,
-    company varchar(45) null,
-    `values` longtext null,
-    basevalues longtext null,
+    userid int null,
+    incident text null,
+    toContext int null,
+    fromContext int null,
+    edited_by varchar(255) default 'System Tracker' null,
+    created_at timestamp default CURRENT_TIMESTAMP null,
+    updated_at timestamp null,
+    deleted_at timestamp null
+);
+
+create table invoices
+(
+    id int auto_increment primary key,
+    smactwsID int null,
+    smactinstance text null,
+    invoiceid text null,
+    invoiceNo text null,
+    company text null,
+    `values` text null,
+    basevalues text null,
     duedate date null,
     status int default 0 null,
     source int null,
     action int null,
     actionInfo text null,
-    barcode varchar(45) null,
-    templatename varchar(255) null,
-    context varchar(45) null,
-    contextID varchar(45) null,
+    barcode text null,
+    templatename text null,
+    context text null,
+    contextID text null,
     contextAmount int null,
     payment text null,
-    edited_by varchar(255) null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists items
+create table items
 (
-    id int unsigned auto_increment
-        primary key,
-    title varchar(255) not null,
+    id int unsigned auto_increment primary key,
+    title text not null,
     description text not null,
     created_at timestamp null,
     updated_at timestamp null
-)
-    collate=utf8mb4_unicode_ci;
+);
 
-create table if not exists locations
+create table locations
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    locationID varchar(45) null,
-    locationname varchar(255) null,
-    locationadress varchar(255) null,
-    geocords varchar(255) null,
+    locationID text null,
+    locationname text null,
+    locationadress text null,
+    geocords text null,
     max_size int null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists messages
+create table messages
 (
-    id int unsigned auto_increment
-        primary key,
+    id int unsigned auto_increment primary key,
     user_id int unsigned not null,
     message text not null,
     created_at timestamp null,
     updated_at timestamp null
-)
-    collate=utf8mb4_unicode_ci;
+);
 
-create table if not exists migrations
+create table migrations
 (
-    id int unsigned auto_increment
-        primary key,
-    migration varchar(191) not null,
+    id int unsigned auto_increment primary key,
+    migration text not null,
     batch int not null
-)
-    collate=utf8mb4_unicode_ci;
+);
 
-create table if not exists modul_connector
+create table modul_connector
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
     modul int null,
     modulID int null,
     context int null,
-    contextID varchar(255) null,
-    value varchar(255) null,
-    description varchar(255) null,
-    edited_by varchar(255) null,
+    contextID text null,
+    value text null,
+    description text null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists nacev2
+create table nacev2
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     branchenID text null,
     mainsector_normalised text null,
     name text null,
@@ -758,332 +709,362 @@ create table if not exists nacev2
     updated_at timestamp null
 );
 
-create table if not exists names
+create table names
 (
-    id int auto_increment
-        primary key,
-    name varchar(255) null,
-    sex varchar(45) null,
-    origin varchar(255) null,
-    edited_by varchar(45) null,
+    id int auto_increment primary key,
+    name text null,
+    sex text null,
+    origin text null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
 );
 
-create table if not exists offers
+create table offers
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    smactinstance varchar(45) null,
-    offerid varchar(45) null,
-    offerNo varchar(45) null,
-    company varchar(45) null,
-    `values` longtext null,
-    basevalues longtext null,
-    duedate varchar(45) null,
-    status varchar(45) default '0' null,
-    templatename varchar(255) null,
-    edited_by varchar(255) null,
+    smactinstance text null,
+    offerid text null,
+    offerNo text null,
+    company text null,
+    `values` text null,
+    basevalues text null,
+    duedate text null,
+    status varchar(255) default '0' null,
+    templatename text null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists orders
+create table orders
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    smactinstance varchar(45) null,
-    context varchar(45) null,
-    contextID varchar(45) null,
+    smactinstance text null,
+    context text null,
+    contextID text null,
     contextAmount int null,
-    orderid varchar(45) null,
-    `values` longtext null,
-    basevalues longtext null,
-    duedate varchar(45) null,
-    edited_by varchar(45) null,
+    orderid text null,
+    `values` text null,
+    basevalues text null,
+    duedate text null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
 );
 
-create table if not exists orte
+create table orte
 (
-    id int auto_increment
-        primary key,
-    name varchar(255) null,
+    id int auto_increment primary key,
+    name text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
-)
-    collate=utf8_unicode_ci;
+);
 
-create table if not exists password_resets
+create table password_resets
 (
-    email varchar(191) not null,
-    token varchar(191) not null,
+    email varchar(512) not null,
+    token text not null,
     created_at timestamp null
-)
-    collate=utf8mb4_unicode_ci;
+);
 
 create index password_resets_email_index
     on password_resets (email);
 
-create table if not exists person_local
+create table person_local
 (
-    id int auto_increment
-        primary key,
-    smactwsID varchar(45) null,
-    personID varchar(255) null,
-    givenname varchar(255) null,
-    givennameformaly varchar(255) null,
-    ensuinggivennames varchar(255) null,
-    surname varchar(255) null,
-    surnameformerly varchar(255) null,
-    salutation varchar(255) null,
-    salutationrecipient varchar(255) null,
-    titel varchar(255) null,
-    graduation varchar(255) null,
-    degree varchar(255) null,
-    college varchar(255) null,
-    nobility varchar(255) null,
-    nobilityaddition varchar(255) null,
-    district varchar(255) null,
-    state varchar(255) null,
-    street varchar(255) null,
-    streetnumber varchar(255) null,
-    zipcode varchar(255) null,
-    city varchar(255) null,
-    country varchar(255) null,
-    addressaddition varchar(255) null,
-    telcountrycode varchar(255) null,
-    telareacode varchar(255) null,
-    telnumber varchar(255) null,
-    occupationaltitle varchar(255) null,
-    lettersalutation varchar(255) null,
-    individuallettersalutation varchar(255) null,
-    email varchar(255) null,
-    optin varchar(255) charset big5 null,
-    memberID varchar(45) null,
-    dateofbirth varchar(255) null,
-    contactmode varchar(255) null,
-    hobbies varchar(255) null,
-    primarycharacteristic varchar(255) null,
-    secondarycharacteristic varchar(255) null,
-    contactinformation longtext null,
+    id int auto_increment primary key,
+    smactwsID text null,
+    personID text null,
+    givenname text null,
+    givennameformaly text null,
+    ensuinggivennames text null,
+    surname text null,
+    surnameformerly text null,
+    salutation text null,
+    salutationrecipient text null,
+    titel text null,
+    graduation text null,
+    degree text null,
+    college text null,
+    nobility text null,
+    nobilityaddition text null,
+    district text null,
+    state text null,
+    street text null,
+    streetnumber text null,
+    zipcode text null,
+    city text null,
+    country text null,
+    addressaddition text null,
+    telcountrycode text null,
+    telareacode text null,
+    telnumber text null,
+    occupationaltitle text null,
+    lettersalutation text null,
+    individuallettersalutation text null,
+    email text null,
+    optin text charset big5 null,
+    memberID text null,
+    dateofbirth text null,
+    contactmode text null,
+    hobbies text null,
+    primarycharacteristic text null,
+    secondarycharacteristic text null,
+    contactinformation text null,
     edited_by int null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists persons
+create table persons
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    companyID varchar(45) null,
-    externID varchar(255) null,
-    anrede varchar(255) null,
-    anredeEmpf varchar(255) null,
-    titel varchar(255) null,
-    vorname varchar(255) null,
-    vorname2 varchar(255) null,
-    vormals_vorname varchar(255) null,
-    nachname varchar(255) null,
-    vormals_nachname varchar(255) null,
-    ortsteil varchar(255) null,
-    strasse varchar(255) null,
-    hausnr varchar(255) null,
-    hausbst varchar(255) null,
-    hausbst2 varchar(64) null,
-    plz varchar(45) null,
-    ort varchar(255) null,
-    land varchar(255) null,
-    state varchar(255) null,
-    akadGrad varchar(255) null,
-    abschluss varchar(255) null,
-    fh varchar(45) null,
-    berufsbezeichnung varchar(255) null,
-    briefanrede varchar(255) null,
-    briefanredeIndi varchar(255) null,
-    adel varchar(255) null,
-    adelszusatz varchar(255) null,
-    funktion varchar(255) null,
-    tel_land varchar(255) null,
-    tel_ort varchar(255) null,
-    tel_nummer varchar(255) null,
-    funk_land varchar(255) null,
-    funk_ort varchar(255) null,
-    funk_nummer varchar(255) null,
-    mail varchar(255) null,
-    mailoptin varchar(255) null,
-    geburtstag varchar(255) null,
-    hobbies varchar(255) null,
+    companyID text null,
+    externID text null,
+    anrede text null,
+    anredeEmpf text null,
+    titel text null,
+    vorname text null,
+    vorname2 text null,
+    vormals_vorname text null,
+    nachname text null,
+    vormals_nachname text null,
+    ortsteil text null,
+    strasse text null,
+    hausnr text null,
+    hausbst text null,
+    hausbst2 text null,
+    plz text null,
+    ort text null,
+    land text null,
+    state text null,
+    akadGrad text null,
+    abschluss text null,
+    fh text null,
+    berufsbezeichnung text null,
+    briefanrede text null,
+    briefanredeIndi text null,
+    adel text null,
+    adelszusatz text null,
+    funktion text null,
+    tel_land text null,
+    tel_ort text null,
+    tel_nummer text null,
+    funk_land text null,
+    funk_ort text null,
+    funk_nummer text null,
+    mail text null,
+    mailoptin text null,
+    geburtstag text null,
+    hobbies text null,
     characteristic1 int null,
     characteristic2 int null,
-    Kommentar varchar(2048) charset utf8 null,
-    anschreibbar varchar(255) null,
-    edited_by varchar(255) charset utf8 null,
+    Kommentar text null,
+    anschreibbar text null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
-)
-    collate=utf8_unicode_ci;
+);
 
-create table if not exists privilegies
+create table privilegies
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
     user int null,
     privilege int null,
-    edited_by varchar(255) null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
 );
 
-create table if not exists products
+create table products
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    smactinstance varchar(45) null,
-    productID varchar(45) null,
-    name varchar(255) null,
-    description mediumtext null,
+    smactinstance text null,
+    productID text null,
+    name text null,
+    description text null,
     priceVATex decimal(18,2) null,
     priceVATin decimal(18,2) null,
     vat decimal(18,2) null,
-    context varchar(45) null,
-    contextID varchar(255) null,
-    `group` varchar(45) null,
-    online varchar(45) null,
-    edited_by varchar(255) null,
+    context text null,
+    contextID text null,
+    `group` text null,
+    online text null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
     );
 
-create table if not exists profile
+create table profile
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     userID int null,
-    userImage varchar(255) null,
-    bookmarks varchar(512) null,
-    infoDismiss varchar(512) default '["0"]' null,
-    naviState varchar(512) default '["0"]' null,
-    theme varchar(26) null,
-    locale varchar(45) default 'de' null,
-    fontsize varchar(45) null,
-    fontcolor varchar(45) null,
-    phone varchar(45) null,
-    function varchar(45) null,
-    company varchar(45) null,
-    facebook varchar(45) null,
-    twitter varchar(45) null,
-    linkedin varchar(45) null,
-    instagram varchar(45) null,
+    userImage text null,
+    bookmarks text null,
+    infoDismiss varchar(255) default '["0"]' null,
+    naviState varchar(255) default '["0"]' null,
+    theme text null,
+    locale varchar(255) default 'de' null,
+    fontsize text null,
+    fontcolor text null,
+    phone text null,
+    `function` text null,
+    company text null,
+    facebook text null,
+    twitter text null,
+    linkedin text null,
+    instagram text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
-);
+    );
 
-create table if not exists sales_progress
+create table sales_progress
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    progressid varchar(45) null,
-    processnumber int(5) unsigned zerofill null,
+    progressid text null,
+    processnumber text null,
     company int null,
-    processdescription varchar(255) null,
+    processdescription text null,
     basevalues text null,
     progress text null,
-    state varchar(45) null,
-    state_comment mediumtext null,
+    state text null,
+    state_comment text null,
     edited_by int null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists sales_progress_comments
+create table sales_progress_comments
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    progressid varchar(45) null,
+    progressid text null,
     comment text null,
     edited_by int null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
 );
 
-create table if not exists sales_subscriptions
+create table sales_subscriptions
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
     userid int null,
     person int null,
     company int null,
-    created_by varchar(45) null,
+    created_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists settings
+create table settings
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    name varchar(64) null,
+    name text null,
     `values` text null,
     sales text null,
     paymentprovider text null,
-    imagename varchar(255) null,
-    iframestyle longtext null,
-    created_by varchar(255) null,
+    imagename text null,
+    iframestyle text null,
+    created_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists smactwsonlineid
+create table smact_campaigns
 (
-    id int auto_increment
-        primary key,
-    smactwsID int null,
-    smactwsonlineID varchar(45) null,
-    styles longtext null,
+    id int auto_increment primary key,
+    campaignID text null,
+    code text null,
+    expire timestamp null,
+    value int null,
+    type int null,
+    invalid int null,
+    reference text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
 );
 
-create table if not exists tasks
+create table smact_paymentplans
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    taskID varchar(45) null,
+    owner_id int null,
+    first_order timestamp null,
+    cycle text null,
+    cycle_start timestamp null,
+    cycle_duration int null,
+    campaign text null,
+    campaign_value int null,
+    campaign_type int null,
+    price int null,
+    charge int null,
+    deposit int null,
+    status text null,
+    preannouncement timestamp null,
+    created_at timestamp default CURRENT_TIMESTAMP null,
+    updated_at timestamp null
+);
+
+create table smact_products
+(
+    id int auto_increment primary key,
+    nameDE text null,
+    descriptionDE text null,
+    nameEN text null,
+    descriptionEN text null,
+    value int null,
+    minimum_term int null,
+    online_available int null,
+    created_at timestamp default CURRENT_TIMESTAMP null,
+    updated_at timestamp null
+);
+
+create table smactwsonlineid
+(
+    id int auto_increment primary key,
+    smactwsID int null,
+    smactwsonlineID text null,
+    styles text null,
+    created_at timestamp default CURRENT_TIMESTAMP null,
+    updated_at timestamp null
+);
+
+create table tasks
+(
+    id int auto_increment primary key,
+    smactwsID int null,
+    taskID text null,
     userID int null,
-    state varchar(45) null,
-    name varchar(45) null,
-    description varchar(45) null,
-    priority varchar(45) null,
-    remember_at varchar(45) null,
+    state text null,
+    name text null,
+    description text null,
+    priority text null,
+    remember_at text null,
     recurrent int null,
-    edited_by varchar(45) null,
+    edited_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
 );
 
-create table if not exists tblColumns
+create table tblColumns
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     user int null,
     tblKind text null,
     tblCol int null,
@@ -1092,90 +1073,84 @@ create table if not exists tblColumns
     updated_at timestamp null
 );
 
-create table if not exists timetracker
+create table timetracker
 (
-    id int auto_increment
-        primary key,
-    trackID varchar(45) null,
+    id int auto_increment primary key,
+    trackID text null,
     userID int null,
     smactwsID int null,
-    contextID varchar(45) null,
+    contextID text null,
     context int null,
     started_at int null,
     stopped_at int null,
-    description varchar(255) null,
+    description text null,
     created_at timestamp null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists tracker
+create table tracker
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
     userid int null,
     context int null,
     contextid int null,
-    event varchar(255) null,
+    event text null,
     edited_by varchar(255) default 'System Tracker' null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists user_workspace
+create table user_workspace
 (
-    id mediumint auto_increment
-        primary key,
+    id mediumint auto_increment primary key,
     user_id bigint null,
     workspace_id bigint null,
-    active tinyint(1) default 0 null
+    active boolean default 0 null
 );
 
-create table if not exists userroles
+create table userroles
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     `order` int null,
     name text null,
     description text null,
-    `group` varchar(45) null,
-    icon varchar(45) null,
+    `group` text null,
+    icon text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null
     );
 
-create table if not exists users
+create table users
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    name varchar(45) null,
-    password varchar(255) null,
-    email varchar(45) null,
-    remember_token varchar(255) null,
+    name text null,
+    password text null,
+    email text null,
+    remember_token text null,
     active int default 1 not null,
     context int null,
-    created_by varchar(255) null,
+    created_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
     deleted_at timestamp null
 );
 
-create table if not exists modules
+create table modules
 (
-    id int auto_increment
-        primary key,
+    id int auto_increment primary key,
     smactwsID int null,
-    smactinstance varchar(45) null,
-    modul varchar(255) null,
-    name varchar(255) null,
-    description varchar(128) null,
-    classname varchar(255) null,
+    smactinstance text null,
+    modul text null,
+    name text null,
+    description text null,
+    classname text null,
     timereference int null,
     role int null,
-    edited_by varchar(255) null,
+    edited_by text null,
     user_id int null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
@@ -1187,12 +1162,11 @@ create table if not exists modules
 create index id_idx
     on modules (user_id);
 
-create table if not exists workspaces
+create table workspaces
 (
-    id bigint auto_increment
-        primary key,
-    name varchar(128) null,
-    online_id varchar(32) null,
+    id bigint auto_increment primary key,
+    name text null,
+    online_id text null,
     owner bigint null,
     created_at timestamp default CURRENT_TIMESTAMP not null,
     updated_at timestamp null,
