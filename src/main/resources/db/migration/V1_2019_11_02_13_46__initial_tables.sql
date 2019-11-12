@@ -1133,6 +1133,7 @@ create table users
     remember_token text null,
     active int default 1 not null,
     context int null,
+    session_id text null,
     created_by text null,
     created_at timestamp default CURRENT_TIMESTAMP null,
     updated_at timestamp null,
