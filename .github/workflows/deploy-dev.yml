@@ -1,0 +1,40 @@
+name: deploy-smact-dev
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: show dir
+      run: ls -la
+    - name: build docker image
+      run: docker build --tag repository.geeksven.dev/smact/dataloader:${{ github.sha }} . && docker login --username repouser --password ${{ secrets.SMACT_REPO_SECRET }} https://repository.geeksven.dev && docker push repository.geeksven.dev/smact/dataloader:${{ github.sha }}
+    - uses: appleboy/scp-action@master
+      name: scp files to stage host
+      env:
+        USERNAME: ${{ secrets.SMACT_DEV_USER }}
+        PASSWORD: ${{ secrets.SMACT_DEV_SECRET }}
+        HOST: smact.group
+        SOURCE: "smact-service-dataloader.yml"
+        TARGET: /home/sven
+    - uses: appleboy/ssh-action@master
+      name: docker load image
+      env:
+        USERNAME: ${{ secrets.SMACT_DEV_USER }}
+        PASSWORD: ${{ secrets.SMACT_DEV_SECRET }}
+        HOST: smact.group
+        GITHUB_SHA: ${{github.sha}}
+        SCRIPT: docker login --username repouser --password ${{ secrets.SMACT_REPO_SECRET }} https://repository.geeksven.dev && docker pull repository.geeksven.dev/smact/dataloader:${{ github.sha }}
+    - uses: appleboy/ssh-action@master
+      name: docker deploy
+      env:
+        USERNAME: ${{ secrets.SMACT_DEV_USER }}
+        PASSWORD: ${{ secrets.SMACT_DEV_SECRET }}
+        HOST: smact.group
+        SCRIPT: DATALOADER_VERSION=${{ github.sha }} SMACT_DB=${{secrets.SMACT_DEV_DB}} SMACT_DB_USERNAME=${{secrets.SMACT_DEV_DB_USERNAME}} SMACT_DB_PASSWORD=${{secrets.SMACT_DEV_DB_PASSWORD}} docker stack deploy --prune -c smact-service-dataloader.yml smact-service-dataloader

@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  dataloader:
+    image: repository.geeksven.dev/smact/dataloader:${DATALOADER_VERSION}
+    deploy:
+      update_config:
+        order: start-first
+    environment:
+      APP_LOADER_INPUT_DIR: /etc/dataloader/in
+      APP_LOADER_OUTPUT_DIR: /etc/dataloader/out
+      SPRING_DATASOURCE_URL: ${SMACT_DB}
+      SPRING_DATASOURCE_USERNAME: ${SMACT_DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SMACT_DB_PASSWORD}
+    volumes:
+      - dataloader:/etc/dataloader
+    ports:
+      - "7700:7700"
+    networks:
+      - smact-net
+networks:
+  smact-net:
+    external: true
+volumes:
+  dataloader:
