@@ -94,7 +94,12 @@ class DataLoaderService(private val companyService: CompanyService,
 
                         logger.info { "inserting companies ($filename): ${companies.size}" }
                         logger.info { "using following mappings: $defaultDbColumns" }
-                        companyService.saveCompanies(companies)
+                        companies.chunked(100).forEach { try {
+                            companyService.saveCompanies(it)
+                            } catch (e: java.lang.Exception) {
+                                logger.warn { "malicious Data found: ${e.message}" }
+                            }
+                        }
                         logger.info { "inserting companies finished" }
                         workbook.close()
                         excelFile.close()
